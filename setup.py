@@ -5,9 +5,16 @@ from os import path
 
 BASE_DIR = path.abspath(path.dirname(__file__))
 README_FILE = 'readme.rst'
+REQUIREMENTS_FILE = 'requirements.txt'
 
 with open(path.join(BASE_DIR, README_FILE), encoding='utf-8') as f:
     long_description = f.read()
+
+with open(path.join(BASE_DIR, REQUIREMENTS_FILE), encoding='utf-8') as f:
+    requirements = []
+    for line in f.read().split('\n'):
+        if line:
+            requirements.append(line.strip())
 
 setup(
     name='bandeco',
@@ -30,11 +37,12 @@ setup(
         'Topic :: Utilities',
     ],
     keywords='restaurant menu scrapper',
+    install_requires=requirements,
     packages=find_packages(),
     entry_points={
-            'console_scripts': [
-                'bandeco=bandeco:main',
-            ],
+        'console_scripts': [
+            'bandeco=bandeco:main',
+        ],
     },
 )
 

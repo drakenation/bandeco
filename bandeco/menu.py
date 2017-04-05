@@ -67,4 +67,4 @@ class Menu(object):
                           "  * Salada: {salad}",
                           "  * Sobremesa: {dessert}",
                           "  * Suco: {juice}",
-                          "  * Observações: {notes}"]).format(**values)
+                          "  * Observações: {notes}"]).format(**values) + "\n"

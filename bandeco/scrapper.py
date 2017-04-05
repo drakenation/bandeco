@@ -47,7 +47,7 @@ def get_meals(html):
         for table_row in table.children:
             try:
                 row = str(table_row.td)
-                if 'ARROZ' in row:
+                if 'ARROZ' in row and 'FEIJÃO' in row:
                     meal.rice = _get_menu_item(table_row)
                 elif 'PRATO PRINCIPAL' in row:
                     meal.maindish = str(table_row.td.contents[-1].contents[0]).strip().title()

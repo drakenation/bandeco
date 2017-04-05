@@ -9,16 +9,16 @@ from . import constants
 from . import scrapper
 from .utils import format_date
 from .utils import parse_date
+from .utils import format_for_terminal
 from .utils import write_plain
-from .utils import write_pretty
 
 
 def run(dt=None):
     """
-    Prints the menu, menu date and available dates for a date.
+    Fetches the menu, menu date and available dates for a date and returns them as a string.
 
-    :param datetime.date dt: The date of the menu t
-    :return int: 1 if the
+    :param datetime.date dt: The date of the menu to be fetched.
+    :return int: The error code of the execution (0 means no error)
     """
     parser = ArgumentParser()
     parser.add_argument('date', type=str, nargs='*')
@@ -34,8 +34,22 @@ def run(dt=None):
     current_date = scrapper.get_meal_date(html)
     available_dates = scrapper.get_available_dates(html)
     meals = scrapper.get_meals(html)
-    write_pretty("Menu do dia {}\n".format(format_date(current_date)), constants.TERMINAL_GREEN)
+    result = ""
+    result += format_for_terminal("Menu do dia {}\n".format(format_date(current_date)),
+                                  constants.TERMINAL_GREEN)
     for meal in meals:
-        write_plain(meal.format())
-    write_pretty("Datas disponíves: {} \n".format(list(map(format_date, available_dates))),
-                 constants.TERMINAL_BLUE)
+        result += meal.format()
+    result += format_for_terminal(
+        "Datas disponíves: {}".format(list(map(format_date, available_dates))),
+        constants.TERMINAL_BLUE)
+    return result
+
+
+def run_and_print(dt=None):
+    """
+    Fetches the menu, menu date and available dates for a date and prints them to the stdout.
+
+    :param datetime.date dt: The date of the menu to be fetched.
+    :return int: The error code of the execution (0 means no error)
+    """
+    write_plain(run(dt))

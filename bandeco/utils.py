@@ -35,6 +35,17 @@ def format_date(dt):
     return dt.strftime('%d/%m/%Y')
 
 
+def format_for_terminal(string, effect):
+    """
+    Formats text to be output to a terminal.
+
+    :param str string: The string to the formatted.
+    :param str effect: The effect to be used. Some effects are already predefiend present in the
+                       constant package as TERMINAL_*.
+    """
+    return effect + string + constants.TERMINAL_END
+
+
 def write_plain(string):
     """
     Writes to the standard output stream with a newline at the end.

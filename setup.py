@@ -18,7 +18,7 @@ with open(path.join(BASE_DIR, REQUIREMENTS_FILE), encoding='utf-8') as f:
 
 setup(
     name='bandeco',
-    version='0.1',
+    version='0.2',
     description='Fetches the menu from Unicamp\'s restaurantes',
     url='https://github.com/drakenation/bandeco',
     author='drakenation',

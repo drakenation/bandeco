@@ -18,34 +18,48 @@ CLI Usage
 
 .. code-block:: bash
 
-    $ bandeco
+    $ bandeco -d [DD/MM/YYYY|amanha]
 
-Will print the menu for the today or the next available day
+Will print the menu for the specified date (pay attention to the format) or tomorrow, respectively.
+It will print an error message if the specified date doesn't have an associated menu.
 
 .. code-block:: bash
 
-    $ bandeco DD/MM/YYYY
+    $ bandeco -m [almoco|jantar|todas]
 
-Will print the menu for the specified date (pay attention to the format). It will print an error
-message if the specified date doesn't have an associated menu.
+Will print the specified meal for the next date.
+
+You can combine the -m and -d options to fetch anspecific meal of an specific date.
+
+    $ bandeco -m [almoco|jantar|todas]  -d [DD/MM/YYYY|amanha]
+
+The CLI also has a default behavior:
+
+.. code-block:: bash
+
+    $ bandeco
+
+Will print the menu for a single meal of today's or the next available day's menu.
+If today's menu, then it will choose lunch or dinner based on the current time (before or after 14h).
+It not today's menu, it will always print the lunch menu.
 
 
 Package Usage
 -------------
 
-To print the menu of a date, use
+To get the menu as a string, use
 
-.. code-block:: bash
+.. code-block:: python
 
-    from bandeco import bandeco
     # Will print the menu for the current or next available date
-    bandeco.run()
+    from bandeco import bandeco
+    bandeco.run(input_date=None, input_meal=None)
 
-    from datetime import date
-    # Will print the menu for the specified date, if it exists, or return an error message
-    bandeco.run(date(...))
+The possible values for *input_date* and *input_meal* are the same as the CLI version.
+The resulting string is formatted for displaying in a bash terminal. If you desire to remove this formatting,
+use the remove_terminal_formatting() function from the utils package.
 
-Use the scrapper package to get the menu, menu date and available dates:
+You can use the scrapper package to get the menu, menu date and available dates as objects, instead of a string:
 
 .. code-block:: bash
 
@@ -55,14 +69,14 @@ Use the scrapper package to get the menu, menu date and available dates:
     html = scrapper.fetch_data(parse_date('31/12/1999'))
     menu = scrapper.get_meals(html)
     menu_date = scrapper.get_meal_date(html)
-    available_date = scrapper.get_available_dates(html)
+    available_dates = scrapper.get_available_dates(html)
 
 
 Documentation
 -------------
 
 The code is properly documented with docstrings, and the package is small enough not to need a
-guide. At most, you need to know that the import hierarchy is as follows:
+guide. At most, you need to know that the call hierarchy is as follows:
 
 .. code-block::
 

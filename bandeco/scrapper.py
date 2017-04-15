@@ -62,8 +62,9 @@ def get_meals(html):
                         '<br>')[-1].replace('</br>', '').strip().title()
                 else:
                     garnish = str(table_row.td.contents[-1]).strip().title()
-                    meal.garnish = garnish if meal.garnish is None else (
-                        meal.garnish + ', ' + garnish)
+                    if garnish:
+                        meal.garnish = (garnish if not meal.garnish else
+                                        '{}, {}'.format(meal.garnish, garnish))
             # Ignore rows that don't have the attributes we want
             except AttributeError:
                 pass

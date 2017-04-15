@@ -3,10 +3,12 @@ Module with helpful functions for general use.
 """
 
 # Core imports
-from . import constants
 from datetime import date
+from re import sub as regex_sub
 from sys import stdout
 from sys import stderr
+# Project imports
+from . import constants
 
 
 def parse_date(date_string):
@@ -44,6 +46,11 @@ def format_for_terminal(string, effect):
                        constant package as TERMINAL_*.
     """
     return effect + string + constants.TERMINAL_END
+
+
+def remove_terminal_formatting(string):
+    """Removes terminal-formatting characters from a string."""
+    return regex_sub('\\033\[[0-9]+m', '', string)
 
 
 def write_plain(string):
